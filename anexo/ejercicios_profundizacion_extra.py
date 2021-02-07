@@ -11,8 +11,8 @@ Programa creado para que practiquen los conocimietos
 adquiridos durante la semana
 '''
 
-__author__ = "Inove Coding School"
-__email__ = "alumnos@inove.com.ar"
+__author__ = "Ezequiel Alarcon"
+__email__ = "zekalarcon@gmail.com"
 __version__ = "1.2"
 
 
@@ -44,6 +44,15 @@ Descripción del dataset "ventas.csv"
 - El dataset contiene 3 meses (genéricos) de 30 días c/u
 
 '''
+
+import csv
+from csv import DictReader
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.axes
+import mplcursors 
+
+
 
 
 def ej1():
@@ -94,6 +103,24 @@ def ej1():
 
     '''
 
+  
+    with open('ventas.csv', 'r') as f:
+        reader = DictReader(f)
+        lista_filtrada = [x for x in reader if x['Mes'] == '1']
+        alimentos_mes_1 = [x['Alimentos'] for x in lista_filtrada]
+        dias_mes_1 = [x['Dia'] for x in lista_filtrada]
+        
+        fig, ax = plt.subplots()
+        fig.suptitle('Facturacion Alimentos Mes 1')
+
+        ax.plot(dias_mes_1, alimentos_mes_1, c = 'orange')
+        ax.grid(c = 'silver', ls = '--')
+        ax.set_facecolor('honeydew')
+        ax.set_xlabel('DIAS')
+        ax.set_ylabel('FACTURACION')
+
+        plt.show()
+
 
 def ej2():
     print('Comenzamos a ponernos serios!')
@@ -122,6 +149,24 @@ def ej2():
 
     '''
 
+    with open('ventas.csv', 'r') as f:
+        reader = DictReader(f)
+        alimentos_año = [int(x['Alimentos']) for x in reader]
+        tendencia = np.diff(alimentos_año)
+        
+        fig, ax = plt.subplots()
+        fig.suptitle('Diferencias Facturacion Alimentos')
+
+        ax.plot(tendencia, c = 'orange')
+        ax.grid(c = 'silver', ls = '--')
+        ax.set_facecolor('honeydew')
+        ax.set_xlabel('DIAS')
+        ax.set_ylabel('DIFERENCIA')
+        mplcursors.cursor(multiple=True)
+
+        plt.show()
+        
+        
 
 def ej3():
     print("Buscando la tendencia")
@@ -138,6 +183,23 @@ def ej3():
 
     '''
 
+
+    with open('ventas.csv', 'r') as f:
+        reader = DictReader(f)
+        electrodomesticos_año = [int(x['Electrodomesticos']) for x in reader]
+        electros_filtrados = [1 if x != 0 else 0 for x in electrodomesticos_año  ]
+        
+        fig, ax = plt.subplots()
+        fig.suptitle('Electrodomestico Tendencia Ventas')
+
+        ax.plot(electros_filtrados, c = 'orange')
+        ax.grid(c = 'silver', ls = '--')
+        ax.set_facecolor('honeydew')
+        ax.set_xlabel('DIAS')
+        ax.set_ylabel('VENTAS')
+        mplcursors.cursor(multiple=True)
+
+        plt.show()
 
 def ej4():
     print("Exprimiendo los datos")
@@ -160,6 +222,30 @@ def ej4():
     del año
     '''
 
+
+    with open('ventas.csv', 'r') as f:
+        reader = DictReader(f)
+        categorias_año = [[int(x['Alimentos']), int(x['Bazar']), int(x['Limpieza']),int(x['Electrodomesticos'])] for x in reader]
+        
+        sum_alimentos = sum([x[0] for x in categorias_año])
+        sum_bazar = sum([x[1] for x in categorias_año])
+        sum_limpieza = sum([x[2] for x in categorias_año])
+        sum_electrodomesticos = sum([x[3] for x in categorias_año])
+
+        cantidades = [sum_alimentos, sum_bazar, sum_limpieza, sum_electrodomesticos]
+        labels = ['Alimentos', 'Bazar', 'Limpieza', 'Electrodomesticos']
+        explode = (0,0,0,0.1)
+        
+        fig, ax = plt.subplots()
+        fig.suptitle('Facturacion Anual Productos')
+
+        ax.pie(cantidades, explode = explode,
+          colors = ['orange', 'red', 'dodgerblue', 'forestgreen'],
+          labels = labels, autopct='%1.1f%%', shadow=True, startangle=90)
+        ax.axis('equal') 
+
+        plt.show()
+           
 
 def ej5():
     print("Ahora sí! buena suerte :)")
@@ -184,11 +270,103 @@ def ej5():
     apilados o agrupados (a su elección)
     '''
 
+    
+    with open('ventas.csv', 'r') as f:
+        reader = DictReader(f)
+        lista_filtrada = [x if x['Mes'] == '1' else x if x['Mes'] == '2' else x for x in reader]
+        
+        categorias_mes_1 = [[int(x['Alimentos']), int(x['Bazar']), int(x['Limpieza']),int(x['Electrodomesticos'])] for x in lista_filtrada if x['Mes'] == '1']
+        categorias_mes_2 = [[int(x['Alimentos']), int(x['Bazar']), int(x['Limpieza']),int(x['Electrodomesticos'])] for x in lista_filtrada if x['Mes'] == '2']
+        categorias_mes_3 = [[int(x['Alimentos']), int(x['Bazar']), int(x['Limpieza']),int(x['Electrodomesticos'])] for x in lista_filtrada if x['Mes'] == '3']
+
+         # Mes 1 Sumas
+
+        alimentos_mes_1 = sum([x[0] for x in categorias_mes_1])
+        bazar_mes_1 = sum([x[1] for x in categorias_mes_1])
+        limpieza_mes_1 = sum([x[2] for x in categorias_mes_1])
+        electro_mes_1 = sum([x[3] for x in categorias_mes_1])
+
+        mes1 = [alimentos_mes_1,bazar_mes_1,limpieza_mes_1,electro_mes_1]
+
+        # Mes 2 Sumas
+
+        alimentos_mes_2 = sum([x[0] for x in categorias_mes_2])
+        bazar_mes_2 = sum([x[1] for x in categorias_mes_2])
+        limpieza_mes_2 = sum([x[2] for x in categorias_mes_2])
+        electro_mes_2 = sum([x[3] for x in categorias_mes_2])
+
+        mes2 = [alimentos_mes_2,bazar_mes_2,limpieza_mes_2,electro_mes_2]
+
+        # Mes 3 Sumas
+
+        alimentos_mes_3 = sum([x[0] for x in categorias_mes_3])
+        bazar_mes_3 = sum([x[1] for x in categorias_mes_3])
+        limpieza_mes_3 = sum([x[2] for x in categorias_mes_3])
+        electro_mes_3 = sum([x[3] for x in categorias_mes_3])
+
+        mes3 = [alimentos_mes_3, bazar_mes_3, limpieza_mes_3, electro_mes_3]
+
+
+        # Grafico Separados
+
+
+        productos = ['Alimentos', 'Bazar', 'Limpieza', 'Electros']
+
+        fig, (ax1, ax2, ax3) = plt.subplots(1,3)
+        fig.suptitle('Ventas Productos Mensuales')
+
+        ax1.bar(productos,mes1, color = 'orange')
+        ax2.bar(productos,mes2, color = 'royalblue')
+        ax3.bar(productos,mes3, color = 'lightseagreen')
+        ax1.set_xlabel('MES 1')
+        ax2.set_xlabel('MES 2')
+        ax3.set_xlabel('MES 3')
+        ax1.set_ylabel('CANTIDAD')
+
+        for ax in fig.get_axes():
+            ax.grid(c = 'silver', ls = 'dotted')
+            ax.set_facecolor('aliceblue')
+            
+        plt.show()
+
+
+        # Grafico todo en uno
+
+
+        alimentos = [mes1[0], mes2[0], mes3[0]]
+        bazar = [mes1[1], mes2[1], mes3[1]]
+        limpieza = [mes1[2], mes2[2], mes3[2]]
+        electros = [mes1[3], mes2[3], mes3[3]]
+
+        width = 0.2
+
+        x1 = np.arange(len(alimentos))
+        x2 = [x + width for x in x1]
+        x3 = [x + width for x in x2]
+        x4 = [x + width for x in x3]
+
+        fig, ax = plt.subplots()
+        fig.suptitle('Ventas Productos Mensuales')
+
+        ax.bar(x1, alimentos, width=width, edgecolor='honeydew', label='Alimentos')
+        ax.bar(x2, bazar, width=width, edgecolor='honeydew', label='Bazar')
+        ax.bar(x3, limpieza, width=width, edgecolor='honeydew', label='Limpieza')
+        ax.bar(x4, electros, width=width, edgecolor='honeydew', label='electros')
+        ax.grid(c = 'silver', ls = 'dotted')
+        ax.set_facecolor('honeydew')
+        ax.set_ylabel('CANTIDAD')
+        ax.legend()
+        
+        plt.xticks([x + 0.3 for x in range(len(alimentos))], ['Mes 1', 'Mes 2', 'Mes 3'])
+
+        plt.show()
+
+
 
 if __name__ == '__main__':
     print("Ejercicios de práctica")
-    ej1()
-    # ej2()
-    # ej3()
-    # ej4()
-    # ej5()
+    #ej1()
+    #ej2()
+    #ej3()
+    #ej4()
+    #ej5()

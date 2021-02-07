@@ -11,8 +11,8 @@ Programa creado para poner a prueba los conocimientos
 adquiridos durante la clase
 '''
 
-__author__ = "Inove Coding School"
-__email__ = "alumnos@inove.com.ar"
+__author__ = "Ezequiel Alarcon"
+__email__ = "zekalarcon@gmail.com"
 __version__ = "1.1"
 
 import math
@@ -21,6 +21,7 @@ import matplotlib.pyplot as plt
 import matplotlib.axes
 import matplotlib.gridspec as gridspec
 import mplcursors  # [Opcional cursores]
+import matplotlib.ticker as tck
 
 
 def ej1():
@@ -39,6 +40,20 @@ def ej1():
     # Graficar el "line plot" de "Y" en función de "X"
     # Colocar la leyenda y el label con el nombre de la función
     # Darle color a la línea a su elección
+
+    
+    fig, ax = plt.subplots()
+    fig.suptitle('"Y" en función de "X"')
+
+    ax.plot( x, y, c='orange', marker = '^', ms = 10, label = 'y = x**2')
+    ax.set_xlabel('X Label')  
+    ax.set_ylabel('Y Label')
+    ax.legend()
+    ax.grid(c = 'silver', ls='--') 
+    ax.set_facecolor('lavenderblush')
+
+    plt.show()
+
 
 
 def ej2():
@@ -65,6 +80,21 @@ def ej2():
     # Cada función dibujarla con un color distinto
     # a su elección
 
+    fig, ax = plt.subplots()
+    fig.suptitle('Dos funciones en el mismo grafico') 
+
+    ax.plot( x, y1, c = 'slateblue', marker ='.', ms = 10, label = 'y1 = x**2')
+    ax.plot( x, y2, c = 'orange', marker ='.', ms = 10, label = 'y2 = x**3')
+    ax.set_xlabel('EJE X = list(np.linspace(-4, 4, 20))')  
+    ax.set_ylabel('EJE Y')
+    ax.xaxis.set_minor_locator(tck.AutoMinorLocator())
+    ax.yaxis.set_minor_locator(tck.AutoMinorLocator())
+    ax.legend()
+    ax.grid(c = 'silver', ls = '--') 
+    ax.set_facecolor('lavenderblush')
+
+    plt.show()
+
 
 def ej3():
     # Scatter Plot
@@ -85,6 +115,19 @@ def ej3():
 
     # Elegir un marker a elección
 
+    fig, ax = plt.subplots()
+    fig.suptitle('Tangente hiperbolica de X')
+
+    ax.scatter( x, y, c = 'slateblue', marker = '.', label = 'y1 = x**2')
+    ax.set_xlabel('EJE X = np.arange(-np.pi, np.pi, 0.1)')  
+    ax.set_ylabel('EJE Y = np.tanh(x)')
+    ax.xaxis.set_minor_locator(tck.AutoMinorLocator())
+    ax.yaxis.set_minor_locator(tck.AutoMinorLocator())
+    ax.set_facecolor('lavenderblush')
+    ax.grid(c = 'silver', ls= '--')
+    ax.legend()
+
+    plt.show()
 
 def ej4():
     # Figura con múltiples gráficos
@@ -123,11 +166,29 @@ def ej4():
 
     # Colocar una grilla a elección
 
+    fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2)
+    fig.suptitle('Multiples Graficos', fontsize=16)
+
+    ax1.plot(x, y1, 'tab:blue', label = 'y1 = x**2')
+    ax2.plot(x, y2, 'tab:orange', label = 'y2 = x**3')
+    ax3.plot(x, y3, 'tab:green', label = 'y3 = x**4')
+    ax4.plot(x, y4, 'tab:red', label = 'y4 = np.sqrt(x)')
+
+    for ax in fig.get_axes():
+        ax.legend()
+        ax.grid(c = 'silver', ls= '--')
+        ax.xaxis.set_minor_locator(tck.AutoMinorLocator())
+        ax.yaxis.set_minor_locator(tck.AutoMinorLocator())
+        ax.set_facecolor('lavenderblush')
+        mplcursors.cursor(multiple=True)  
+
+    plt.show()
+
 
 if __name__ == '__main__':
     print("Bienvenidos a otra clase de Inove con Python")
-    ej1()
-    # ej2()
-    # ej2()
-    # ej3()
-    # ej4()
+    #ej1()
+    #ej2()
+    #ej3()
+    #ej4()
+    

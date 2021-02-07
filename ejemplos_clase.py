@@ -332,11 +332,11 @@ def file_plot():
 if __name__ == '__main__':
     print("Bienvenidos a otra clase de Inove con Python")
     # ---------------- Tipos de gráficos ---------------- #
-    line_plot()
-    scatter_plot()
+    #line_plot()
+    #scatter_plot()
     bar_plot()
-    pie_plot()
+    #pie_plot()
     # --------------------------------------------------- # 
     # Bonus track
-    file_plot()
-    cursores()
+    #file_plot()
+    #cursores()
